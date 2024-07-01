@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client, GoogleAuth } from 'google-auth-library';
 import fs from 'fs';
 import readline from 'readline';
 
@@ -32,6 +32,18 @@ export function initGoogleAPI(credentialsPath: string, tokenPath: string, callba
   const rawCredentials = fs.readFileSync(credentialsPath, 'utf8');
   const credentials = JSON.parse(rawCredentials) as GoogleAPICredentials;
   authorize(credentials, tokenPath, callback);
+}
+
+
+export function initGoogleAPIByKeyFile(keyfilePath: string, callback: GoogleAPICallback) {
+  const SCOPES = [
+    'https://www.googleapis.com/auth/spreadsheets.readonly',
+  ];
+  const auth = new GoogleAuth({
+    keyFile: keyfilePath,
+    scopes: SCOPES,
+  });
+  auth.getClient().then((authClient: any) => callback(authClient));
 }
 
 function authorize(

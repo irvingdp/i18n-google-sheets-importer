@@ -1,6 +1,6 @@
 import { CommandModule } from 'yargs';
 import { OAuth2Client } from 'google-auth-library';
-import { initGoogleAPI, downloadSpreadsheet } from '../googleApi';
+import { initGoogleAPI, initGoogleAPIByKeyFile, downloadSpreadsheet } from '../googleApi';
 import { importTranslationsFromSpreadsheet } from '../converter';
 
 const command: CommandModule<{}, ImportGoogleSheetsArgs> = {
@@ -33,7 +33,7 @@ const command: CommandModule<{}, ImportGoogleSheetsArgs> = {
     },
   },
   handler: argv => {
-    initGoogleAPI(argv.credentials, argv.token, async (auth: OAuth2Client) => {
+    initGoogleAPIByKeyFile(argv.keyFilePath, async (auth: OAuth2Client) => {
       const spreadsheet = await downloadSpreadsheet(
         auth,
         argv.spreadsheetId,
