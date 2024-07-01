@@ -1,6 +1,6 @@
 import { CommandModule } from 'yargs';
 import { OAuth2Client } from 'google-auth-library';
-import { initGoogleAPI, initGoogleAPIByKeyFile, downloadSpreadsheet } from '../googleApi';
+import { initGoogleAPIByKeyFile, downloadSpreadsheet } from '../googleApi';
 import { importTranslationsFromSpreadsheet } from '../converter';
 
 const command: CommandModule<{}, ImportGoogleSheetsArgs> = {
@@ -50,6 +50,7 @@ interface ImportGoogleSheetsArgs {
   credentials: string;
   token: string;
   output: string;
+  keyFilePath: string;
 }
 
 module.exports = command;
